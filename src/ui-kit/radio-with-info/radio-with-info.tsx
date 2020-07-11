@@ -21,27 +21,19 @@ const RadioWithInfo: React.FC<RadioWithInfoProps> = ({ info, ...props }) => {
     return (
         <div className="d-flex">
             <Radio {...props} />
-            {info && !isOpen ? (
-                <Icon
-                    name={IconName.info}
-                    color="gray"
-                    size={20}
-                    className="ml-1"
-                    onMouseEnter={handleOpen}
-                    role="button"
-                />
-            ) : info ? (
-                <Tooltip open text={info}>
+            {!!info && (
+                <Tooltip open={isOpen} text={info}>
                     <Icon
-                        name={IconName.remove}
+                        name={isOpen ? IconName.remove : IconName.info}
                         color="gray"
                         size={20}
                         className="ml-1"
-                        onClick={handleClose}
                         role="button"
+                        onMouseEnter={handleOpen}
+                        onClick={handleClose}
                     />
                 </Tooltip>
-            ) : null}
+            )}
         </div>
     );
 }
