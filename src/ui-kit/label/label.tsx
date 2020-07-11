@@ -10,7 +10,10 @@ interface LabelProps {
 
 const Label: React.FC<LabelProps> = ({ children, black, className, onClick }) => {
     return (
-        <span className={classnames('label', className, { black: !!black })} onClick={onClick}>
+        <span
+            className={classnames('label', className, { black: !!black })}
+            onClick={onClick}
+        >
             {children}
         </span>
     );

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Field, reduxForm, formValues } from 'redux-form';
+import { Field, reduxForm, formValues, WrappedFieldProps } from 'redux-form';
 import Label from '../ui-kit/label/label';
-import ToggleBox from '../ui-kit/togglebox/togglebox';
-import Input from '../ui-kit/input-number/input-number';
-import RadioGroup from '../ui-kit/radio-group-with-info/radio-group-with-info';
+import ToggleBox, { ToggleBoxProps } from '../ui-kit/togglebox/togglebox';
+import InputNumber, { InputNumberProps } from '../ui-kit/input-number/input-number';
+import RadioGroupWithInfo, { RadioGroupWithInfoProps } from '../ui-kit/radio-group-with-info/radio-group-with-info';
 import { SelaryPeriod } from '../enums/salary-period';
 import Message from './message';
 
@@ -27,8 +27,10 @@ const radioOptions = [
     },
 ]
 
-const renderRadioGroup = ({ input, ...rest }: any) => (
-    <RadioGroup
+type renderRadioGroupType = WrappedFieldProps & RadioGroupWithInfoProps;
+
+const renderRadioGroup = ({ input, ...rest }: renderRadioGroupType) => (
+    <RadioGroupWithInfo
         {...input}
         {...rest}
         value={input.value}
@@ -36,49 +38,52 @@ const renderRadioGroup = ({ input, ...rest }: any) => (
     />
 );
 
-const renderToggleBox = formValues('salaryPeriod')(
-    ({ input, checkedLabel, uncheckedLabel, children, className, id, salaryPeriod }: any) => {
-        if (salaryPeriod  === SelaryPeriod.MROT) {
+type renderToggleBoxType = WrappedFieldProps & ToggleBoxProps & { salaryPeriod: SelaryPeriod };
+
+const renderToggleBox = formValues<renderToggleBoxType>('salaryPeriod')(
+    ({ input, salaryPeriod, ...rest }: renderToggleBoxType) => {
+        if (salaryPeriod === SelaryPeriod.MROT) {
             return null;
         }
 
         return (
             <ToggleBox
-                checkedLabel={checkedLabel}
-                uncheckedLabel={uncheckedLabel}
+                {...rest}
                 checked={input.value ? true : false}
                 onChange={input.onChange}
-                children={children}
-                className={className}
-                id={id}
             />
         );
-});
-
-const renderInput = formValues('salaryPeriod')(({ input, salaryPeriod, ...rest }: any) => {
-    if (salaryPeriod  === SelaryPeriod.MROT) {
-        return null;
     }
+);
 
-    return (
-        <Input
-            {...input}
-            {...rest}
-            value={input.value}
-            onChange={input.onChange}
-            label={
-                salaryPeriod === SelaryPeriod.Day ? '₽ в день' :
-                salaryPeriod === SelaryPeriod.Hour ? '₽ в час' : '₽'
-            }
-        />
-    );
-});
+type renderInputNumberType = WrappedFieldProps & InputNumberProps & { salaryPeriod: SelaryPeriod };
+
+const renderInputNumber = formValues<renderInputNumberType>('salaryPeriod')(
+    ({ input, salaryPeriod, ...rest }: renderInputNumberType) => {
+        if (salaryPeriod === SelaryPeriod.MROT) {
+            return null;
+        }
+
+        return (
+            <InputNumber
+                {...input}
+                {...rest}
+                value={input.value}
+                onChange={input.onChange}
+                label={
+                    salaryPeriod === SelaryPeriod.Day ? '₽ в день' :
+                        salaryPeriod === SelaryPeriod.Hour ? '₽ в час' : '₽'
+                }
+            />
+        );
+    }
+);
 
 const Form: React.FC = () => {
     return (
         <div>
             <Label>Сумма</Label>
-            <Field 
+            <Field
                 className="mb-2"
                 name="salaryPeriod"
                 component={renderRadioGroup}
@@ -96,7 +101,7 @@ const Form: React.FC = () => {
                 />
                 <Field
                     name="salary"
-                    component={renderInput}
+                    component={renderInputNumber}
                 />
             </div>
             <Message className="mt-4" />

@@ -7,30 +7,31 @@ interface RadioOption extends RadioWithInfoProps {
     value: radioValue;
 }
 
-interface RadioGroupProps {
+export interface RadioGroupWithInfoProps {
     value: radioValue;
     onChange(value: radioValue): void;
     options: RadioOption[];
     className?: string;
 }
 
-const RadioGroup: React.FC<RadioGroupProps> = ({ value, onChange, options, className }) => {
-    const handleClick = (value: radioValue) => () => {
-        onChange(value);
+const RadioGroupWithInfo: React.FC<RadioGroupWithInfoProps> =
+    ({ value, onChange, options, className }) => {
+        const handleClick = (value: radioValue) => () => {
+            onChange(value);
+        }
+
+        return (
+            <div className={className}>
+                {options.map(option => (
+                    <RadioWithInfo
+                        {...option}
+                        key={option.value}
+                        onClick={handleClick(option.value)}
+                        checked={value === option.value}
+                    />
+                ))}
+            </div>
+        );
     }
 
-    return (
-        <div className={className}>
-            {options.map(option => (
-                <RadioWithInfo
-                    {...option}
-                    key={option.value}
-                    onClick={handleClick(option.value)}
-                    checked={value === option.value}
-                />
-            ))}
-        </div>
-    );
-}
-
-export default RadioGroup;
+export default RadioGroupWithInfo;
