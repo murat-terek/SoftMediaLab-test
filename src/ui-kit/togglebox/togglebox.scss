@@ -1,0 +1,28 @@
+.togglebox {
+    display: flex;
+    align-items: center;
+
+    .custom-control-label,
+    .togglebox-label {
+        cursor: pointer;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+        border-color: orange;
+        background-color: orange;
+        box-shadow: none;
+    }
+
+    .custom-control-input:not(:checked) ~ .custom-control-label,
+    .custom-control-input:focus:not(:checked) ~ .custom-control-label {
+        &::before {
+            box-shadow: none;
+            border-color: #d3d3d3;
+            background-color: #d3d3d3;
+        }
+
+        &::after {
+            background-color: white;
+        }
+    }
+}

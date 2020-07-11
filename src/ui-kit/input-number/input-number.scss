@@ -1,0 +1,11 @@
+.input-number-wrapper {
+    display: flex;
+    align-items: center;
+
+    .input-number {
+        border-radius: 500em;
+        height: 32px;
+        width: 150px;
+        font-weight: bold;
+    }
+}

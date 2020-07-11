@@ -1,0 +1,29 @@
+$color: rgb(70, 17, 167);
+$top: 15px;
+
+.awesome-tooltip {
+    position: relative;
+
+    .awesome-tooltip-text {
+        position: absolute;
+        z-index: 999;
+        top: calc(100% + 20px);
+        left: 50%;
+        padding: 10px;
+        width: 200px;
+        background-color: $color;
+        color: white;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -$top;
+            left: 0;
+            border: 0;
+            border-right: 10px solid transparent;
+            border-left: 10px solid $color;
+            border-top: $top solid transparent;
+            border-bottom: $top solid $color;
+        }
+    }
+}
