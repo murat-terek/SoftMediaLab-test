@@ -8,16 +8,11 @@ export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElem
     label: string;
     value: number;
     onChange(value: number): void;
-    onBlur(value: number): void;
 }
 
-const InputNumber: React.FC<InputNumberProps> = ({ label, onChange, onBlur, ...props }) => {
+const InputNumber: React.FC<InputNumberProps> = ({ label, onChange, ...props }) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange && onChange(extractNumber(event.target.value));
-    }
-
-    const handleBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
-        onBlur && onBlur(extractNumber(event.target.value));
     }
 
     return (
@@ -25,7 +20,6 @@ const InputNumber: React.FC<InputNumberProps> = ({ label, onChange, onBlur, ...p
             <input
                 {...props}
                 onChange={handleChange}
-                onBlur={handleBlur}
                 className="form-control input-number"
             />
             <b className="ml-1">{label}</b>

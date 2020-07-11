@@ -59,15 +59,13 @@ const renderToggleBox = formValues<renderToggleBoxType>('salaryPeriod')(
 type renderInputNumberType = WrappedFieldProps & InputNumberProps & { salaryPeriod: SelaryPeriod };
 
 const renderInputNumber = formValues<renderInputNumberType>('salaryPeriod')(
-    ({ input, salaryPeriod, ...rest }: renderInputNumberType) => {
+    ({ input, salaryPeriod }: renderInputNumberType) => {
         if (salaryPeriod === SelaryPeriod.MROT) {
             return null;
         }
 
         return (
             <InputNumber
-                {...input}
-                {...rest}
                 value={input.value}
                 onChange={input.onChange}
                 label={

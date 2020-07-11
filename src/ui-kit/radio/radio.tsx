@@ -11,9 +11,9 @@ export interface RadioProps {
 
 const Radio: React.FC<RadioProps> = ({ children, checked, onClick, className, label }) => {
     return (
-        <div className={classnames('form-check', className)} onClick={onClick}>
+        <div className={classnames('form-check', className)}>
             <label className="form-check-label radio">
-                <input className="form-check-input" type="radio" checked={!!checked} />
+                <input className="form-check-input" type="radio" checked={!!checked} onChange={onClick} />
                 {children || label}
             </label>
         </div>
